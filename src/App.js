@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router,
   Route,
 } from "react-router-dom";
+import Axios from "axios";
 
 class App extends Component {
 
@@ -18,14 +19,25 @@ class App extends Component {
   }
 
 
-  updateAuth = (event)=>{
+  updateAuth = async (event)=>{
     event.preventDefault();
 
     this.setState({
       username: event.target.usernameText.value,
       password: event.target.passwordText.value
     })
-    
+
+    const requestOptions = {
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username:this.state.username,
+        password:this.state.password
+      })
+    }
+
+    const response = await fetch('http://localhost:25953/api/Login/token', requestOptions);
+    const data = await response.json();
+    console.log(data);
   }
 
   render(){
