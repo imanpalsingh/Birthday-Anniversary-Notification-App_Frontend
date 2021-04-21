@@ -31,15 +31,20 @@ class SignIn extends Component{
     // Function to update the values of input fields to states
     updateValues = (event)=>{
 
+        const {name,value} = event.target;
+
         this.setState({
-          [event.target.name] : event.target.value
+          [name] : value
         })
         
     }
 
   
     render(){
-        
+
+        const {usernameText, passwordText} = this.state;
+        const {updateAuth} = this.props;
+
         return (
                 <Container component="main" maxWidth="xs">
                   <CssBaseline />
@@ -48,7 +53,7 @@ class SignIn extends Component{
                       <Typography component="h1" variant="h5">
                         <div className="header-text">Sign in</div>
                       </Typography>
-                      <form action="#" onSubmit={(e)=>{this.props.updateAuth(e)}}>
+                      <form action="#" onSubmit={(e)=>{updateAuth(e)}}>
                         <TextField
                           variant="outlined"
                           margin="normal"
@@ -60,7 +65,7 @@ class SignIn extends Component{
                           autoComplete="email"
                           autoFocus
                           onChange={(e)=>this.updateValues(e)}
-                          value={this.state.usernameText}
+                          value={usernameText}
                         />
                         <TextField
                           variant="outlined"
@@ -73,7 +78,7 @@ class SignIn extends Component{
                           id="passwordText"
                           autoComplete="current-password"
                           onChange={(e)=>this.updateValues(e)}
-                          value={this.state.passwordText}
+                          value={passwordText}
                         />
                       
                         <div className="signin-btn">
