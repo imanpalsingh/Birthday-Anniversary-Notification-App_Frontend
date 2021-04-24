@@ -2,100 +2,106 @@
   This component is responsible for displaying the signin page
 */
 
-/*
-  Todo : route signin to dashboard once it is completed
-*/
 
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import { Alert} from '@material-ui/lab';
 import "./SignIn.styles.css";
 
-class SignIn extends Component{
 
-    constructor(props){
-        super(props)
+export default function SignIn(props){
 
-        // props for the dynamically changing input fields ( not the global)
-        this.state={
-            usernameText : "",
-            passwordText : ""
-        }
-        
-    }
+    
+    const [textField, setTextField] = useState({
+        usernameText:"",
+        passwordText:""
+    })
+
+    const [error, updateError] = useState(false)
 
     // Function to update the values of input fields to states
-    updateValues = (event)=>{
+    const updateValues = (event)=>{
 
         const {name,value} = event.target;
 
-        this.setState({
-          [name] : value
+        setTextField({
+            ...textField,
+            [name] : value
         })
         
     }
 
-  
-    render(){
-
-        const {usernameText, passwordText} = this.state;
-        const {updateAuth} = this.props;
-
-        return (
+    const  submitForm = async (event)=>{
+        event.preventDefault();
+        const result = await props.updateAuth(event)
+        updateError(result)
+    }
+    return (
+            <div class="signin-component">
                 <Container component="main" maxWidth="xs">
-                  <CssBaseline />
-                  <div className="signin-form">
-                      <LockOutlinedIcon color="primary" style={{fontSize:"3em"}}/>
-                      <Typography component="h1" variant="h5">
+                    <CssBaseline />
+                    <div className="signin-form">
+                        <LockOutlinedIcon color="primary" style={{fontSize:"3em"}}/>
+                        <Typography component="h1" variant="h5">
                         <div className="header-text">Sign in</div>
-                      </Typography>
-                      <form action="#" onSubmit={(e)=>{updateAuth(e)}}>
+                        </Typography>
+                        <form action="#" onSubmit={(e)=>{submitForm(e)}}>
                         <TextField
-                          variant="outlined"
-                          margin="normal"
-                          required
-                          fullWidth
-                          id="usernameText"
-                          label="Email Address"
-                          name="usernameText"
-                          autoComplete="email"
-                          autoFocus
-                          onChange={(e)=>this.updateValues(e)}
-                          value={usernameText}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="usernameText"
+                            label="Username"
+                            name="usernameText"
+                            autoFocus
+                            onChange={(e)=>updateValues(e)}
+                            value={textField.usernameText}
                         />
                         <TextField
-                          variant="outlined"
-                          margin="normal"
-                          required
-                          fullWidth
-                          name="passwordText"
-                          label="Password"
-                          type="password"
-                          id="passwordText"
-                          autoComplete="current-password"
-                          onChange={(e)=>this.updateValues(e)}
-                          value={passwordText}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="passwordText"
+                            label="Password"
+                            type="password"
+                            id="passwordText"
+                            autoComplete="current-password"
+                            onChange={(e)=>updateValues(e)}
+                            value={textField.passwordText}
                         />
-                      
+                        
                         <div className="signin-btn">
                         <Button
-                          type="submit"
-                          variant="contained"
-                          color="primary"
-                          size="large"
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            size="large"
                         >
-                          Sign In
+                            Sign In
                         </Button>
                         </div>
-                      </form>
+                        </form>
                     </div>
-                  
-                  </Container>
-            )
-      }
+                    
+                    { (error)?
+                        
+                        <div class="error-display">
+                            <Alert variant="outlined" severity="error">
+                                Wrong Sign in Credentials
+                            </Alert>
+                        </div>
+                        :null
+                        
+                    }
+                    </Container>
+                </div>
+    )
+
 }
-export default SignIn;
