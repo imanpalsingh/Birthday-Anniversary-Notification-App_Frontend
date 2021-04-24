@@ -23,12 +23,8 @@ class App extends Component {
   Function makes an api call to receive token using username and password
   */
   updateToken = async (event)=>{
-    Auth.signIn(this.state.username,this.state.password)
-    .then(token=>{
-      this.setState({
-        token:token
-      })
-    })
+    const token = await Auth.signIn(this.state.username,this.state.password)
+    this.setState({token:token})
   }
 
   componentDidMount(){
@@ -41,22 +37,16 @@ class App extends Component {
   /*
      This binded function for child components; for updating states
   */
-  updateAuth = async (event)=>{
+  updateAuth = (event)=>{
     
     event.preventDefault();
-  
     this.setState({
       username: event.target.usernameText.value,
       password: event.target.passwordText.value
     },()=>{
       this.updateToken()
     })
-
-    if(!this.state.token)
-        return "Wrong Credentials"
     
-    else
-      return false
     
   }
 
