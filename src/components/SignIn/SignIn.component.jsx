@@ -10,7 +10,6 @@ import TextField from '@material-ui/core/TextField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import { Alert} from '@material-ui/lab';
 import "./SignIn.styles.css";
 
 
@@ -21,9 +20,6 @@ export default function SignIn(props){
         usernameText:"",
         passwordText:""
     })
-
-    const [error, updateError] = useState(false)
-
     // Function to update the values of input fields to states
     const updateValues = (event)=>{
 
@@ -36,13 +32,8 @@ export default function SignIn(props){
         
     }
 
-    const  submitForm = async (event)=>{
-        event.preventDefault();
-        const result = await props.updateAuth(event)
-        updateError(result)
-    }
     return (
-            <div class="signin-component">
+            <div className="signin-component">
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
                     <div className="signin-form">
@@ -50,7 +41,7 @@ export default function SignIn(props){
                         <Typography component="h1" variant="h5">
                         <div className="header-text">Sign in</div>
                         </Typography>
-                        <form action="#" onSubmit={(e)=>{submitForm(e)}}>
+                        <form action="#" method="post" onSubmit={(e)=>{props.updateAuth(e)}}>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -90,16 +81,6 @@ export default function SignIn(props){
                         </form>
                     </div>
                     
-                    { (error)?
-                        
-                        <div class="error-display">
-                            <Alert variant="outlined" severity="error">
-                                Wrong Sign in Credentials
-                            </Alert>
-                        </div>
-                        :null
-                        
-                    }
                     </Container>
                 </div>
     )
