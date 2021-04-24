@@ -2,10 +2,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 120px;
-    border: 1px solid #3f51b5;
-    padding: 2em 2.5em 4em 2.5em;
+    margin-top: 110px;
+    
+    padding: 2.2em 2.5em 6em 2.5em;
     border-radius: 10px;
+    background-color: rgba(255,255,255,0.85)
 }
 
 .signin-btn{
@@ -15,4 +16,23 @@
 
 .header-text{
     margin-top: 0.4em;
+    
+}
+
+.error-display{
+    position: relative;
+    bottom:65px;
+    padding: 0em 1em 0em 1em;
+    
+}
+
+.signin-component{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: url("../../Pictures/Bg.jpg") no-repeat center center fixed;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
