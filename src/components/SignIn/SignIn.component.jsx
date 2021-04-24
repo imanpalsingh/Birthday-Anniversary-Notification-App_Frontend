@@ -2,6 +2,12 @@
   This component is responsible for displaying the signin page
 */
 
+/*
+    Todo : refactor promises
+            Handle wrong username 400 server errors
+            
+
+*/
 
 import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
