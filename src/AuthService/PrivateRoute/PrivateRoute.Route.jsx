@@ -23,7 +23,7 @@ const PrivateRoute = ({Component, display, updateDisplay,  fallbackLink="/signin
     const token = localStorage.getItem("token");
     
     // If no token exists goto fallback
-    if(!token) {history.push(fallbackLink); return}
+    if(!token) {history.push(fallbackLink);}
 
     // Validate the token.
     Auth.getDatawithToken(token, updateDisplay);
