@@ -3,10 +3,7 @@
 */
 
 /*
-    Todo : refactor promises
-            Handle wrong username 400 server errors
-            
-
+            Todo : decide where to to store the asociate data.
 */
 
 import React, {useState} from 'react';
@@ -17,15 +14,30 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import "./SignIn.styles.css";
+import Auth from "../../AuthService/Auth";
+import Alert from '@material-ui/lab/Alert';
 
 
 export default function SignIn(props){
 
     
+    /*
+        TextField holds simple value of inputs
+    */
     const [textField, setTextField] = useState({
         usernameText:"",
         passwordText:""
     })
+
+    /*
+        error keeps strack of server error reported while fetching for authentication.
+        Currently all erros are reported as "Invalid User credentials"
+
+        Update error is passed to the AuthService to update those error
+    */
+    const [error, updateError] = useState(false)
+
+
     // Function to update the values of input fields to states
     const updateValues = (event)=>{
 
@@ -38,6 +50,16 @@ export default function SignIn(props){
         
     }
 
+    /*
+        Handles OnSubmit, [the history.push is removed because it was resetting states]
+        Conditional rendering to signin is handled by app.js
+    */
+    const updateAuth = async(event)=>{
+            
+            event.preventDefault();
+            await Auth.signIn(textField.usernameText,textField.passwordText, props.updateSigned, updateError);
+    }
+
     return (
             <div className="signin-component">
                 <Container component="main" maxWidth="xs">
@@ -47,7 +69,7 @@ export default function SignIn(props){
                         <Typography component="h1" variant="h5">
                         <div className="header-text">Sign in</div>
                         </Typography>
-                        <form action="#" method="post" onSubmit={(e)=>{props.updateAuth(e)}}>
+                        <form action="#" method="post" onSubmit={(e)=>{updateAuth(e)}}>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -87,7 +109,17 @@ export default function SignIn(props){
                         </form>
                     </div>
                     
+                    {
+                        error?
+                        <div className="error-display">
+                            <Alert variant="outlined" severity="error">
+                                Invalid User Credentials
+                            </Alert>
+                        </div>
+                       :null
+                    }
                     </Container>
+                    
                 </div>
     )
 
