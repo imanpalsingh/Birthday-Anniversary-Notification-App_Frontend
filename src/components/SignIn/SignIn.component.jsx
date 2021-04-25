@@ -11,12 +11,12 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import "./SignIn.styles.css";
 import Auth from "../../AuthService/Auth";
 import Alert from '@material-ui/lab/Alert';
-
 
 export default function SignIn(props){
 
@@ -36,6 +36,9 @@ export default function SignIn(props){
         Update error is passed to the AuthService to update those error
     */
     const [error, updateError] = useState(false)
+
+    // To display a linear progress bar until data from server is fetched
+    const [isLoading, updateLoading] = useState(false);
 
 
     // Function to update the values of input fields to states
@@ -57,15 +60,21 @@ export default function SignIn(props){
     const updateAuth = async(event)=>{
             
             event.preventDefault();
+            updateLoading(true);
             await Auth.signIn(textField.usernameText,textField.passwordText, props.updateSigned, updateError);
-    }
+            updateLoading(false);
+        }
 
     return (
             <div className="signin-component">
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
                     <div className="signin-form">
-                        <LockOutlinedIcon color="primary" style={{fontSize:"3em"}}/>
+
+                        {  isLoading?
+                            <LockOpenIcon color="secondary" style={{fontSize:"3em"}}/>
+                            :<LockOutlinedIcon color="primary" style={{fontSize:"3em"}}/>
+                        }
                         <Typography component="h1" variant="h5">
                         <div className="header-text">Sign in</div>
                         </Typography>
@@ -100,10 +109,11 @@ export default function SignIn(props){
                         <Button
                             type="submit"
                             variant="contained"
-                            color="primary"
+                            color={isLoading?"secondary":"primary"}
                             size="large"
                         >
                             Sign In
+                        
                         </Button>
                         </div>
                         </form>
@@ -116,8 +126,9 @@ export default function SignIn(props){
                                 Invalid User Credentials
                             </Alert>
                         </div>
-                       :null
+                       : null
                     }
+                    
                     </Container>
                     
                 </div>
