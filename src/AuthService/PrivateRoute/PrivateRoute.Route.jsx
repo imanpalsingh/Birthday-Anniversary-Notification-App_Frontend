@@ -23,16 +23,13 @@ const PrivateRoute = ({Component, display, updateDisplay,  fallbackLink="/signin
     const token = localStorage.getItem("token");
     
     // If no token exists goto fallback
-    if(!token) {history.push(fallbackLink);}
+    if(!token) history.push(fallbackLink)
 
     // Validate the token.
     Auth.getDatawithToken(token, updateDisplay);
 
     // if token was valid, it had updated the display hook (via dataUpdator). If not then fallback
-    if(!display){
-        history.push(fallbackLink)
-    }
-
+    if(!display) history.push(fallbackLink)
     //the original component [Also drilling down the app.js states for future use]
     return(
         <Component {...componentProps} signed={display} updateSigned={updateDisplay} />
