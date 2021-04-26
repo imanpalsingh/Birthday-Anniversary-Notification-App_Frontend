@@ -109,8 +109,9 @@ export default function SignIn(props){
                         <Button
                             type="submit"
                             variant="contained"
-                            color={isLoading?"secondary":"primary"}
+                            color="primary"
                             size="large"
+                            disabled={isLoading?true:false}
                         >
                             Sign In
                         
